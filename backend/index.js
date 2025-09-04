@@ -106,7 +106,10 @@ app.post('/addproduct',async(req,res)=>{
 })
 
 //creating api for deleting products
-
+app.post('/removeproduct',async(req,res)=>{
+    await Product.findOneAndDelete({});
+   
+})
 
 app.listen(port,(error)=>{
     if(!error){
