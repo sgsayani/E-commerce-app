@@ -12,7 +12,7 @@ const { type } = require("os");
 app.use(express.json());
 app.use(cors());
 
-//cDatabase connection with mongodb
+//initialization Database connection with mongodb
 mongoose.connect("mongodb+srv://sgsayani_ghatak:Sayani%40123@cluster0.y2v4edg.mongodb.net/e-commerce");
 
 //API creation
@@ -75,7 +75,7 @@ const Product = mongoose.model("Product",{
     },
 
 })
-app.post('/addproduct',async(req,res)=>{
+app.post('/addproduct',async(req,res)=>{ //product add endpoint
     let products = await Product.find({});
     let id;
     if(products.length>0){
@@ -107,8 +107,20 @@ app.post('/addproduct',async(req,res)=>{
 
 //creating api for deleting products
 app.post('/removeproduct',async(req,res)=>{
-    await Product.findOneAndDelete({});
+    await Product.findOneAndDelete({id:req.body.id});
+    console.log('Removed');
+    res.json({
+        success:true,
+        name: req.body.name,
+    })
    
+})
+
+//createing api for getting all products
+app.get('/allproducts',async(req,res)=>{
+    let products = await Product.find({});
+    console.log('All products fetched.');
+    res.send(products);
 })
 
 app.listen(port,(error)=>{
